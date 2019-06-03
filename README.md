@@ -31,12 +31,26 @@ A [DBpedia](http://dbpedia.org/) é uma base de dados pública composta por dado
 Os dados são extraídos automaticamente das [infoboxes](https://en.wikipedia.org/wiki/Help:Infobox) 
   de artigos da Wikipedia
     e armazenados em uma [base de triplas](https://en.wikipedia.org/wiki/Triplestore).
-Estas bases de triplas são baseadas no conceito de [ontologia](https://en.wikipedia.org/wiki/Ontology_(information_science)).
+Estas triplas são baseadas no conceito de [ontologia](https://en.wikipedia.org/wiki/Ontology_(information_science)).
 Ontologia é algo bem complexo 
   e não está no escopo deste projeto explorar este conceito de maneira aprofundada.
-Usaremos a ontologia definida pela DBpedia de uma maneira direta e simplificada,
+Usaremos a ontologia definida pela DBpedia de uma maneira direta e simples,
   o que não deixará de ser algo desafiador e, ao mesmo tempo, com grande potencial.
 
 ## rdf4j
 A biblioteca [rdf4j](https://rdf4j.eclipse.org/) provê diversas funcionalidades para gerenciar dados de uma base de triplas
   (ou seja, de uma ontologia).
+Neste trabalho,
+utilizaremos esta biblioteca para realizar consultas na DBpedia.
+As principais consultas que realizaremos são baseadas na linguagem de busca [SPARQL](https://en.wikipedia.org/wiki/SPARQL)
+  que é inspirada na linguagem SQL para consulta em base de dados relacional.
+
+## Dependências
+A biblioteca rdf4j e suas dependências estão na pasta lib deste projeto.
+Estas são as principais dependências.
+Entretanto,
+como mencionado acima,
+  este projeto também depende do JavaFX.
+Esta biblioteca não está incluída neste projeto.
+Se você usa alguma versão do JDK que não inclua o JavaFX,
+  será necessário instalar/baixar esta biblioteca.

@@ -8,6 +8,31 @@ Em seguida,
   a aplicação consulta a altura de todos os jogadores de futebol do país selecionado
     e exibe o jogador mais alto, o mais baixo, a média das alturas e a quantidade de jogadores encontrados.
 
+## Predicados e Consultas SPARQL usados
+Esta aplicação realiza duas consultas SPARQL à DBpedia.
+A primeira consulta obtém a lista de todos os países da América Latina:
+```
+SELECT DISTINCT ?pais WHERE {
+  ?pais rdf:type dbo:Country .
+  ?pais dct:subject dbc:Countries_in_South_America .
+}
+```
+A restrição **?pais rdf:type dbo:Country** indica que o sujeito é um país.
+A restrição **?pais dct:subject dbc:Countries_in_South_America** indica que o sujeito é um país da América do Sul.
+
+A segunda consulta obtém os jogadores (e suas alturas) do país selecionado.
+```
+SELECT DISTINCT ?person ?height WHERE {
+  ?person rdf:type dbo:SoccerPlayer .
+  ?person dbo:height ?height .
+  ?person dbo:birthPlace ?city .
+  ?city dbo:country <IRI do país selecionado> .
+}
+```
+A primeia tripla indica que o sujeito **?person** é um jogador de futebol.
+A segunda tripla associa a altura (**dbo:height**) do sujeito **?person** à variável **?height**.
+A terceira e a quarta triplas associam a variável **?person** ao país escolhido (**<IRI do país selecionado>**).
+
 ## JavaFX
 JavaFX é um padrão (e uma biblioteca) para desenvolvimento de aplicações gráficas em Java.
 A história do desenvolvimento de aplicações gráficas em Java é longa e complicada.

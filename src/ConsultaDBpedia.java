@@ -22,7 +22,7 @@ import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
  * @author Eraldo R. Fernandes (eraldo@facom.ufms.br)
  *
  */
-public class ConsultaDBPedia {
+public class ConsultaDBpedia {
 
 	/**
 	 * Retorna string com lista de prefixos comuns.

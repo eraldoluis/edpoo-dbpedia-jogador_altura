@@ -8,17 +8,30 @@ Em seguida,
   a aplicação consulta a altura de todos os jogadores de futebol do país selecionado
     e exibe o jogador mais alto, o mais baixo, a média das alturas e a quantidade de jogadores encontrados.
 
+## Classes do Projeto
+Este projeto inclui duas classes: ``ConsultaDBpedia`` e ``AppJogadorFutebolAltura``.
+A classe ``ConsultaDBpedia`` inclui alguns métodos estáticos que realizam consultas à DBpedia 
+  usando a biblioeteca rdf4j.
+Além destes métodos (que são usados pela aplicação),
+  esta classe também inclui um programa (método ``main``) que testa os métodos providos.
+A classe ``AppJogadorFutebolAltura`` implementa a aplicação usando JavaFX.
+Esta classe depende da primeira classe para realizar as consultas à DBpedia.
+
 ## Predicados e Consultas SPARQL usados
-Esta aplicação realiza duas consultas SPARQL à DBpedia.
-A primeira consulta obtém a lista de todos os países da América Latina:
+A aplicação provida neste projeto realiza duas consultas SPARQL à DBpedia.
+A primeira consulta obtém a lista de todos os países da América Latina,
+  como pode ser visto abaixo.
 ```
 SELECT DISTINCT ?pais WHERE {
   ?pais rdf:type dbo:Country .
   ?pais dct:subject dbc:Countries_in_South_America .
 }
 ```
-A restrição **?pais rdf:type dbo:Country** indica que o sujeito é um país.
-A restrição **?pais dct:subject dbc:Countries_in_South_America** indica que o sujeito é um país da América do Sul.
+A primeira tripla indica que a variável **?pais** deve ser do tipo país (**rdf:type dbo:Country**).
+A segunda tripla indica que a variável **?pais** deve ser um país da América do Sul (**dct:subject dbc:Countries_in_South_America**).
+Provavelmente,
+a primeira tripla é desnecessária,
+  pois todo país da América do Sul (**dbc:Countries_in_South_America**) é do tipo país.
 
 A segunda consulta obtém os jogadores (e suas alturas) do país selecionado.
 ```
@@ -29,9 +42,15 @@ SELECT DISTINCT ?person ?height WHERE {
   ?city dbo:country <IRI do país selecionado> .
 }
 ```
-A primeia tripla indica que o sujeito **?person** é um jogador de futebol.
-A segunda tripla associa a altura (**dbo:height**) do sujeito **?person** à variável **?height**.
+Observe que a consulta seleciona duas variáveis **?person** e **?height** pois,
+  além de calcular a altura média,
+    também queremos identificar os jogadores mais alto e mais baixo.
+A primeia tripla indica que a variável **?person** é um jogador de futebol (**rdf:type dbo:SoccerPlayer**).
+A segunda tripla associa a variável **?height** à altura (**dbo:height**) da variável **?person**.
 A terceira e a quarta triplas associam a variável **?person** ao país escolhido (**<IRI do país selecionado>**).
+Observem no código que para inserir uma IRI completa (sem usar um prefixo) em uma consulta SPARQL,
+  como é o caso aqui,
+    precisamos envolver esta IRI entre **<** e **>**.
 
 ## JavaFX
 JavaFX é um padrão (e uma biblioteca) para desenvolvimento de aplicações gráficas em Java.

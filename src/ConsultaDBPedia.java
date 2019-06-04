@@ -17,13 +17,18 @@ import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 
 /**
- * Provê diversos métodos de consulta da DBpedia usando SPARQL juntamente com a
- * biblioeteca rdf4j.
+ * Provê métodos de consulta à DBpedia usando SPARQL usando a biblioeteca rdf4j.
  * 
  * @author Eraldo R. Fernandes (eraldo@facom.ufms.br)
  *
  */
 public class ConsultaDBPedia {
+
+	/**
+	 * Retorna string com lista de prefixos comuns.
+	 * 
+	 * @return
+	 */
 	private static String getPrefixes() {
 		String prefixes = "";
 		prefixes += "PREFIX foaf: <" + FOAF.NAMESPACE + "> \n";
@@ -36,6 +41,11 @@ public class ConsultaDBPedia {
 		return prefixes;
 	}
 
+	/**
+	 * Retorna lista de jogadores nascidos em Campo Grande.
+	 * 
+	 * @return
+	 */
 	public static List<BindingSet> getJogadoresNascidosEmCampoGrande() {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -58,6 +68,11 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Retorna lista de jogadores nascidos em Mato Grosso do Sul.
+	 * 
+	 * @return
+	 */
 	public static List<BindingSet> getJogadoresNascidosEmMS() {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -81,6 +96,12 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Retorna lista de jogadores nascidos no país dado.
+	 * 
+	 * @param pais
+	 * @return
+	 */
 	public static List<BindingSet> getJogadoresNascidosNoPais(String pais) {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -104,6 +125,12 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Obtém altura do jogador dado.
+	 * 
+	 * @param jogador
+	 * @return
+	 */
 	public static double getAlturaJogador(IRI jogador) {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -120,6 +147,13 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Retorna lista de jogadores, juntamente com suas alturas, nascidos no país
+	 * dado.
+	 * 
+	 * @param pais
+	 * @return
+	 */
 	public static List<BindingSet> getJogadoresComAlturaNascidosNoPais(String pais) {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -144,6 +178,11 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Retorna lista de países da América do Sul.
+	 * 
+	 * @return
+	 */
 	public static List<BindingSet> getPaisesAmericaDoSul() {
 		Repository repo = new SPARQLRepository("http://dbpedia.org/sparql");
 		repo.init();
@@ -166,23 +205,31 @@ public class ConsultaDBPedia {
 		}
 	}
 
+	/**
+	 * Testa os métodos da classe.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		// for (BindingSet bs : t.getJogadoresNascidosEmCampoGrande()) {
-		// for (BindingSet bs : t.getJogadoresNascidosEmMS()) {
-//			for (BindingSet bs : t.getJogadoresNascidosNoPais("dbr:Brazil")) {
-//				System.out.println(bs.getValue("person"));
-//			}
+		for (BindingSet bs : getJogadoresNascidosEmCampoGrande())
+			System.out.println(bs.getValue("person"));
 
-//			for (BindingSet bs : t.getJogadoresNascidosNoPais("dbr:Brazil")) {
-//				IRI person = (IRI) bs.getValue("person");
-//				System.out.println(person.getLocalName() + " : " + t.getAlturaJogador(person));
-//			}
+		for (BindingSet bs : getJogadoresNascidosEmMS())
+			System.out.println(bs.getValue("person"));
 
-//			for (BindingSet bs : t.getJogadoresComAlturaNascidosNoPais("dbr:Brazil")) {
-//				IRI person = (IRI) bs.getValue("person");
-//				double height = ((Literal) bs.getValue("height")).doubleValue();
-//				System.out.println(person.getLocalName() + " : " + height);
-//			}
+		for (BindingSet bs : getJogadoresNascidosNoPais("dbr:Brazil"))
+			System.out.println(bs.getValue("person"));
+
+		for (BindingSet bs : getJogadoresNascidosNoPais("dbr:Brazil")) {
+			IRI person = (IRI) bs.getValue("person");
+			System.out.println(person.getLocalName() + " : " + getAlturaJogador(person));
+		}
+
+		for (BindingSet bs : getJogadoresComAlturaNascidosNoPais("dbr:Brazil")) {
+			IRI person = (IRI) bs.getValue("person");
+			double height = ((Literal) bs.getValue("height")).doubleValue();
+			System.out.println(person.getLocalName() + " : " + height);
+		}
 
 		for (BindingSet bsPais : getPaisesAmericaDoSul()) {
 			double min = Double.MAX_VALUE, max = Double.MIN_NORMAL, avg = 0;

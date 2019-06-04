@@ -126,7 +126,21 @@ public class ConsultaDBpedia {
 	}
 
 	/**
-	 * Obtém altura do jogador dado.
+	 * Retorna altura do jogador dado.
+	 * 
+	 * O método {@code conn.getStatements(...)} exemplificado abaixo pode ser usado
+	 * para obter todas as triplas relacionadas a um sujeito ou a um objeto ou a um
+	 * predicato, ou ainda a uma combinação de qualquer dois destes. Este método
+	 * recebe três parâmetros: sujeito, predicado, objeto. Qualquer um destes
+	 * parâmetros pode ser passado como {@code null}, e isto indica que as triplas
+	 * retornadas não dependem do valor naquela posição (sujeito, objeto ou
+	 * predicado).
+	 * 
+	 * Este tipo de consulta sempre pode ser realizado por uma consulta SPARQL.
+	 * Entretanto, em alguns casos, o método usado abaixo é mais simples. Por
+	 * exemplo, quando deseja-se obter o valor de um predicado específico para um
+	 * sujeito em específico. Como é o exemplo abaixo: qual a altura (dbo:height) do
+	 * jogador dado.
 	 * 
 	 * @param jogador
 	 * @return
@@ -211,26 +225,32 @@ public class ConsultaDBpedia {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("*** Jogadores nascidos em Campo Grande ***");
 		for (BindingSet bs : getJogadoresNascidosEmCampoGrande())
 			System.out.println(bs.getValue("person"));
 
+		System.out.println("\n*** Jogadores nascidos em MS ***");
 		for (BindingSet bs : getJogadoresNascidosEmMS())
 			System.out.println(bs.getValue("person"));
 
+		System.out.println("\n*** Jogadores nascidos no Brasil ***");
 		for (BindingSet bs : getJogadoresNascidosNoPais("dbr:Brazil"))
 			System.out.println(bs.getValue("person"));
 
-		for (BindingSet bs : getJogadoresNascidosNoPais("dbr:Brazil")) {
+		System.out.println("\n*** Jogadores nascidos em Campo Grande e suas alturas (obtidas individualmente) ***");
+		for (BindingSet bs : getJogadoresNascidosEmCampoGrande()) {
 			IRI person = (IRI) bs.getValue("person");
 			System.out.println(person.getLocalName() + " : " + getAlturaJogador(person));
 		}
 
+		System.out.println("\n*** Jogadores nascidos no Brasil e suas alturas (obtidas conjuntamente) ***");
 		for (BindingSet bs : getJogadoresComAlturaNascidosNoPais("dbr:Brazil")) {
 			IRI person = (IRI) bs.getValue("person");
 			double height = ((Literal) bs.getValue("height")).doubleValue();
 			System.out.println(person.getLocalName() + " : " + height);
 		}
 
+		System.out.println("\n*** Jogadores mais altos e mais baixos de todos os países da AL ***");
 		for (BindingSet bsPais : getPaisesAmericaDoSul()) {
 			double min = Double.MAX_VALUE, max = Double.MIN_NORMAL, avg = 0;
 			String sMin = null, sMax = null;

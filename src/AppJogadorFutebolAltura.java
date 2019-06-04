@@ -54,7 +54,7 @@ public class AppJogadorFutebolAltura extends Application {
 		List<String> paises = cbPaises.getItems();
 
 		// Obtém lista de países da DBpedia e preenche combobox.
-		for (BindingSet bs : ConsultaDBPedia.getPaisesAmericaDoSul())
+		for (BindingSet bs : ConsultaDBpedia.getPaisesAmericaDoSul())
 			paises.add(bs.getValue("pais").toString());
 
 		// Cria container vertical (existem vários outros) e insere os controles.
@@ -91,7 +91,7 @@ public class AppJogadorFutebolAltura extends Application {
 		pais = "<" + pais + ">";
 
 		// Obtém e processa todos os jogadores do país.
-		for (BindingSet bs : ConsultaDBPedia.getJogadoresComAlturaNascidosNoPais(pais)) {
+		for (BindingSet bs : ConsultaDBpedia.getJogadoresComAlturaNascidosNoPais(pais)) {
 			/*
 			 * O método usado acima retorna dois valores para cada jogador: o IRI do jogador
 			 * e sua altura.
